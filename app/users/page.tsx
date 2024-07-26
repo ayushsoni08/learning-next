@@ -4,6 +4,7 @@ interface User {
   // this interface defines the shape of our user object
   id: number;
   name: string;
+  email: string;
 };
 
 const UsersPage = async () => {
@@ -14,7 +15,7 @@ const UsersPage = async () => {
   // If we have that changes frequently, we can disable caching or treat data in cache as fresh for a certain period of time.
   const res = await fetch(
     "https://jsonplaceholder.typicode.com/users",
-    { cache: 'no-store' }   // to disable caching
+    // { cache: 'no-store' }   // to disable caching
     // { next: { revalidate: 10 } }  // to keep data fresh for a certain period of time.   This means that next.js is gonna do a background job and get fresh data from the backend every 10 seconds.
   );
 
@@ -24,10 +25,22 @@ const UsersPage = async () => {
   return (
     <>
       <h1>Users</h1>
-      <p>{new Date().toLocaleTimeString()}</p>
-      <ul>
-        {users.map(user => <li key={user.id}>{user.name}</li>)}
-      </ul>
+      <table className='table table-zebra-zebra'>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map(user => 
+            <tr key={user.id}>
+              <td>{user.name}</td>
+              <td>{user.email}</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
     </>
   )
 }
